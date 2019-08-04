@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.FileUtils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
@@ -16,8 +17,11 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 
-import com.suite.commons.SeleniumUtils;
+import com.web.webdriver_factory.WebDriverFactory;
 
 public class ScreenCheck {
 
@@ -35,7 +39,7 @@ public class ScreenCheck {
 	private boolean isActualFileExists = false;
 	private boolean isIgnoreFileExists = false;
 	private boolean isDiffFileExists = false;
-
+		
 	static {
 		System.load("E:\\Vaibhav\\Software\\opencv\\build\\java\\x64\\opencv_java411.dll");
 	}
@@ -65,14 +69,14 @@ public class ScreenCheck {
 // Step 1 - Check if expected file present, if not capture it and exit function
 		if (!isFileExists(fullExpectedName)) {
 
-			SeleniumUtils.takeScreenshot(fullExpectedName);
+			takeScreenshot(fullExpectedName);
 			return;
 		}
 
 // Step 2 - take screenshot for actual screen
 		if(deleteFileIfExists(fullActualName))
 			System.out.println("Actual file exists, deleted succssfully...");
-		SeleniumUtils.takeScreenshot(fullActualName);
+		takeScreenshot(fullActualName);
 //Step 3 - Check if there is difference between actual and expected image, if no this exist function else proceed for analysis
 		if (this.getDifferencePercentage(fullExpectedName, fullActualName) == 1.0) {
 			System.out.println("Images are same, no need to do analysis....");
@@ -228,5 +232,17 @@ public class ScreenCheck {
 		}
 
 	}
+
+
+
+	public void takeScreenshot(String fileNameWithPath) {
+		File scrFile = ((TakesScreenshot) WebDriverFactory.getDriver()).getScreenshotAs(OutputType.FILE);
+		try {
+			FileUtils.copyFile(scrFile, new File(fileNameWithPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }

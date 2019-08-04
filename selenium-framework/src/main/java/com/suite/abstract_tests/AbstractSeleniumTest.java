@@ -7,21 +7,13 @@ import org.testng.annotations.Listeners;
 
 import com.suite.commons.TestDataProvider;
 import com.suite.commons.listeners.SeleniumMethodInvocationListener;
-import com.suite.commons.screencheck.ScreenCheck;
+import com.suite.commons.screencheck.IScreenCheck;
 
 @Listeners(SeleniumMethodInvocationListener.class)
-public class AbstractSeleniumTest {
-	protected ScreenCheck screenCheck;
-	
-	public AbstractSeleniumTest()
-	{
-		screenCheck=new ScreenCheck();
-	}
-	
+public class AbstractSeleniumTest implements IScreenCheck{
 	
 	@DataProvider(name = "ExcelAPIDataProvider")
 	public String[][] DataProvider(Method m) {
 		return TestDataProvider.GetExcelDataProvider(m);
 	}
-
 }
