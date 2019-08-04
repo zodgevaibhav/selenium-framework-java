@@ -23,5 +23,4 @@ public class JavaUtils {
 		//return strFilePath.toString();
 		return strSourceClassName.replace(".class", ".xlsx");
 	}
-
 }

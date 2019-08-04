@@ -17,4 +17,10 @@ public class LoginTest extends AbstractSeleniumTest{
 		screenCheck.checkScreen("verifyLoginSuccessFul");
 	}
 
+	@Test
+	public void verifyLoginSuccessFul1() throws IOException
+	{
+		WebDriverFactory.getDriver().get("https://www.google.com");
+		screenCheck.checkScreen("verifyLoginSuccessFul");
+	}
 } 

@@ -42,7 +42,12 @@ public class ScreenCheck {
 
 	public void checkScreen(String fileName) throws IOException {
 
+		System.out.println("Screen check analysis starting for - "+Thread.currentThread().getStackTrace()[2].getClassName()+Thread.currentThread().getStackTrace()[2].getMethodName());
+
+		
+		
 		this.fileName = fileName;// fileName+".png";
+		this.fileName=new Integer((Thread.currentThread().getStackTrace()[2].getClassName()+Thread.currentThread().getStackTrace()[2].getMethodName()).hashCode()).toString();
 		this.path = "E:\\ImagesToDelete\\"; //to make dynamic
 		this.fullExpectedName = this.path + this.fileName + "_expected.png";
 		this.fullActualName = this.path + this.fileName + "_actual.png";
@@ -53,6 +58,10 @@ public class ScreenCheck {
 		this.isExpectedFileExists = this.isFileExists(fullExpectedName);
 		this.isIgnoreFileExists = this.isFileExists(fullIgnoreName);
 
+		deleteFileIfExists(fullActualName);
+		deleteFileIfExists(fullDifferenceName);
+		deleteFileIfExists(fullExpectedWithDifferenceHighlitedName);
+		
 // Step 1 - Check if expected file present, if not capture it and exit function
 		if (!isFileExists(fullExpectedName)) {
 
