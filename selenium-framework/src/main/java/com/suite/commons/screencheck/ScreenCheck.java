@@ -21,6 +21,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import com.suite.common.reporting.ExtentReportTestFactory;
 import com.web.webdriver_factory.WebDriverFactory;
 
 public class ScreenCheck {
@@ -46,7 +47,7 @@ public class ScreenCheck {
 
 	public void checkScreen(String fileName) throws IOException {
 
-		System.out.println("Screen check analysis starting for - "+Thread.currentThread().getStackTrace()[2].getClassName()+Thread.currentThread().getStackTrace()[2].getMethodName());
+		ExtentReportTestFactory.getTest().info("Screen check analysis starting for - "+Thread.currentThread().getStackTrace()[2].getClassName()+Thread.currentThread().getStackTrace()[2].getMethodName());
 
 		
 		
@@ -75,14 +76,14 @@ public class ScreenCheck {
 
 // Step 2 - take screenshot for actual screen
 		if(deleteFileIfExists(fullActualName))
-			System.out.println("Actual file exists, deleted succssfully...");
+			ExtentReportTestFactory.getTest().info("Actual file exists, deleted succssfully...");
 		takeScreenshot(fullActualName);
 //Step 3 - Check if there is difference between actual and expected image, if no this exist function else proceed for analysis
 		if (this.getDifferencePercentage(fullExpectedName, fullActualName) == 1.0) {
-			System.out.println("Images are same, no need to do analysis....");
+			ExtentReportTestFactory.getTest().info("Images are same, no need to do analysis....");
 			return;
 		} else {
-			System.out.println("Images are different, proceeding for more analysis....");
+			ExtentReportTestFactory.getTest().info("Images are different, proceeding for more analysis....");
 		}
 
 // Step 4 - Get the difference image and write it on disk
@@ -90,20 +91,20 @@ public class ScreenCheck {
 		BufferedImage diffImage = getDifferenceImage(fullExpectedName, fullActualName);
 	
 		if(deleteFileIfExists(fullDifferenceName))
-			System.out.println("difference file exists, deleted succssfully...");
+			ExtentReportTestFactory.getTest().info("difference file exists, deleted succssfully...");
 		ImageIO.write(diffImage, "png", new File(fullDifferenceName));
 
 // Step 5 - Check if ignore file is present, if present then check difference berween diffImage and ignore file
 		if (this.isIgnoreFileExists) {
 			if (this.getDifferencePercentage(fullDifferenceName, fullIgnoreName) == 1.0) {
 // Step 5.1 - If ignore file present and there is no difference between ifnore file and difference file then return to function
-				System.out.println("Differences Ignored... ");
+				ExtentReportTestFactory.getTest().info("Differences Ignored... ");
 				return;
 			} else {
 // Step 5.2 - If ignore file is present and difference is more then, create another difference file ignoring difference in difference file
 				diffImage = getDifferenceImage(fullDifferenceName,fullIgnoreName );
 				if(deleteFileIfExists(fullDifferenceName))
-					System.out.println("difference file exists, deleted again succssfully...");
+					ExtentReportTestFactory.getTest().info("difference file exists, deleted again succssfully...");
 				ImageIO.write(diffImage, "png", new File(fullDifferenceName));
 			}
 		}
@@ -154,7 +155,7 @@ public class ScreenCheck {
 		BufferedImage outImage = new BufferedImage(width1, height1, BufferedImage.TYPE_INT_RGB);
 
 		if ((width1 != width2) || (height1 != height2)) {
-			System.out.println("Hight/width is not equal");
+			ExtentReportTestFactory.getTest().info("Hight/width is not equal");
 			return null;
 		}
 
