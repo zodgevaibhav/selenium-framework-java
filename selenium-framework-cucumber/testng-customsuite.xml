@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="OrangeHRM">
+  <test verbose="2" name="OrangeHRM test" thread-count="5">
+  <groups>
+  	<run>
+   	</run>
+  </groups>
+    <classes>
+      <class name="com.orangehrm.tests.LoginTests"/>
+            
+    </classes>
+  </test> <!-- OrangeHRM test -->
+</suite> <!-- Default suite -->
+
+
